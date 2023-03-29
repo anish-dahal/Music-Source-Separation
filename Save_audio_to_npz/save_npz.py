@@ -30,7 +30,8 @@ def save_stft(dataset_path, save_path):
                 # print(drum_path)
                 vocal_path = sources_song_folder_path+'/'+song_name + '/' + sorted(os.listdir(sources_song_folder_path+'/'+song_name))[3]
                 # print(vocal_path)
-                song_name = song_name.replace('&', 'and')
+                for char in ['&', '\'']:
+                    song_name = song_name.replace(char, '')
                 print(song_name)
                 # load .wav file
                 mixture_arr, _ = librosa.load(mixture_path, sr = rate)

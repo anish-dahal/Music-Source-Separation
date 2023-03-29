@@ -16,11 +16,11 @@ class DSD100(Dataset):
     
     def __getitem__(self, index):
         data = np.load(self.spectrogram_path[index])
-        mixture = data['mixture'][np.newaxis,:,:]
-        bass = data['bass'][np.newaxis,:,:]
-        drum = data['drum'][np.newaxis,:,:]
-        vocal = data['vocal'][np.newaxis,:,:]
-        instrumental = data['instrumental'][np.newaxis,:,:]
+        mixture = data['mixture'][np.newaxis,:511,:127]
+        bass = data['bass'][np.newaxis,:511,:127]
+        drum = data['drum'][np.newaxis,:511,:127]
+        vocal = data['vocal'][np.newaxis,:511,:127]
+        instrumental = data['instrumental'][np.newaxis,:511,:127]
         return (
             torch.from_numpy(np.copy(mixture)).to(device),
             torch.from_numpy(np.copy(bass)).to(device),

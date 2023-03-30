@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 
 torch.manual_seed(100)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cpu")
 
 class DSD100(Dataset):
     def __init__(self, data_path):

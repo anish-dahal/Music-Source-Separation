@@ -90,7 +90,7 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
                 train_loop.set_description(f"Epoch {i}")
                 optimizer.zero_grad()
                 y = model(mixture)
-                loss = loss_fn(mixture, y)
+                loss = loss_fn(stem[index], y)
                 loss.backward()
                 optimizer.step()
 
@@ -106,12 +106,13 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
             
             val_loop = tqdm(val_dataloader, leave = True)
             with torch.no_grad():
-                for mixture, _, _, vocal, _ in val_loop:
+                for mixture, bass, drum, vocal, instumental in val_loop:
+                    stem = bass, drum, vocal, instumental
                     y = model(mixture)
-                    loss = loss_fn(mixture, y)
+                    loss = loss_fn(stem[index], y)
 
                     pred = torch.mul(mixture, y)
-                    distance = euclidean_distace(vocal, pred)
+                    distance = euclidean_distace(stem[index], pred)
                     val_loss.append(loss.item())
                     val_distance.append(distance.item())
 

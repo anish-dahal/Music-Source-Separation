@@ -94,8 +94,8 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
                 loss.backward()
                 optimizer.step()
 
-                pred = torch.mul(mixture, y)
-                distance = euclidean_distace(stem[index], pred)
+                # pred = torch.mul(mixture, y)
+                distance = euclidean_distace(stem[index], y)
                 train_loss.append(loss.item())
                 train_distance.append(distance.item())
 
@@ -111,8 +111,8 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
                     y = model(mixture)
                     loss = loss_fn(stem[index], y)
 
-                    pred = torch.mul(mixture, y)
-                    distance = euclidean_distace(stem[index], pred)
+                    # pred = torch.mul(mixture, y)
+                    distance = euclidean_distace(stem[index], y)
                     val_loss.append(loss.item())
                     val_distance.append(distance.item())
 

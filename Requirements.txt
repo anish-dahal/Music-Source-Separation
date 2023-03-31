@@ -1,0 +1,6 @@
+numpy
+librosa
+matplotlib
+torch --index-url https://download.pytorch.org/whl/cu117
+torchsummary
+tqdm

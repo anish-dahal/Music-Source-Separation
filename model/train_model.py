@@ -42,13 +42,13 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
     """
     try:
         if stem_name == 'bass':
-            index = 1
+            index = 0
         elif stem_name == 'drum':
-            index = 2
+            index = 1
         elif stem_name == 'vocal':
-            index = 3
+            index = 2
         elif stem_name == 'instrumental':
-            index = 4
+            index = 3
         else:
             print(f"Provided stem name {stem_name} is not among (bass, drum, vocal, instrumental)")
         

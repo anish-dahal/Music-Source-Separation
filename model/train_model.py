@@ -20,7 +20,7 @@ def euclidean_distace(true_value, predicted_value):
     return torch.sqrt(torch.sum(torch.square(true_value-predicted_value)))
 
 
-def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_name = 'vocal', epoch = 10):
+def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_name = 'vocal', epoch = 10, learning_rate = 0.001):
     """To train and save the best, latest model checkpoint
 
     Parameters
@@ -34,6 +34,8 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
     stem_name : str, optional
         train for respective stem model (bass, drum, vocal, instrumental), by default 'vocal'
     epoch : int, optional, by default 10
+
+    learning_rate : float, optional, by default 0.001
 
     Returns
     -------
@@ -52,7 +54,7 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
         else:
             print(f"Provided stem name {stem_name} is not among (bass, drum, vocal, instrumental)")
         
-        optimizer = Adam_optimizer(model, learning_rate = 0.001)
+        optimizer = Adam_optimizer(model, learning_rate = learning_rate)
         loss_fn = loss_function()
         model.train()
         if model_save_folder_path[-1]=='/':
@@ -90,12 +92,12 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
                 train_loop.set_description(f"Epoch {i}")
                 optimizer.zero_grad()
                 y = model(mixture)
-                loss = loss_fn(stem[index], y)
+                loss = loss_fn(stem[index], torch.mul(y, mixture))
                 loss.backward()
                 optimizer.step()
 
                 # pred = torch.mul(mixture, y)
-                distance = euclidean_distace(stem[index], y)
+                distance = euclidean_distace(stem[index], torch.mul(y, mixture))
                 train_loss.append(loss.item())
                 train_distance.append(distance.item())
 
@@ -109,10 +111,10 @@ def train(model,train_dataloader, val_dataloader, model_save_folder_path, stem_n
                 for mixture, bass, drum, vocal, instumental in val_loop:
                     stem = bass, drum, vocal, instumental
                     y = model(mixture)
-                    loss = loss_fn(stem[index], y)
+                    loss = loss_fn(stem[index], torch.mul(y, mixture))
 
                     # pred = torch.mul(mixture, y)
-                    distance = euclidean_distace(stem[index], y)
+                    distance = euclidean_distace(stem[index], torch.mul(y, mixture))
                     val_loss.append(loss.item())
                     val_distance.append(distance.item())
 

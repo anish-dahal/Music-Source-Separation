@@ -23,11 +23,11 @@ class DSD100(Dataset):
         vocal = data['vocal'][np.newaxis,:511,:127]
         instrumental = data['instrumental'][np.newaxis,:511,:127]
         return (
-            torch.from_numpy(np.copy(mixture)).to(device),
-            torch.from_numpy(np.copy(bass)).to(device),
-            torch.from_numpy(np.copy(drum)).to(device),
-            torch.from_numpy(np.copy(vocal)).to(device),
-            torch.from_numpy(np.copy(instrumental)).to(device)
+            torch.from_numpy(np.abs(np.copy(mixture))).to(device),
+            torch.from_numpy(np.abs(np.copy(bass))).to(device),
+            torch.from_numpy(np.abs(np.copy(drum))).to(device),
+            torch.from_numpy(np.abs(np.copy(vocal))).to(device),
+            torch.from_numpy(np.abs(np.copy(instrumental))).to(device)
         )
 
 

@@ -96,5 +96,5 @@ class UNet(nn.Module):
 
         output = self.decoder6(dconv5)
         output = self.sigmoid(output)
-        return torch.mul(output, x)
+        return output
         
